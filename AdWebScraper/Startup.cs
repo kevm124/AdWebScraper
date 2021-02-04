@@ -7,10 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AdWebScraper.Contexts;
+using AdWebScraper.Services;
+using AdWebScraper.Repository;
 
 namespace AdWebScraper
 {
@@ -32,6 +36,10 @@ namespace AdWebScraper
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AdWebScraper", Version = "v1" });
             });*/
+
+            services.AddDbContext<AppDbContext>(options => { options.UseInMemoryDatabase("ad-web-scraper-in-memory"); });
+            services.AddScoped<IAdvertRepository, AdvertRepository>();
+            services.AddScoped<IAdvertService, AdvertService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
