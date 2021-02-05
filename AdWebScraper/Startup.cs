@@ -43,7 +43,7 @@ namespace AdWebScraper
             services.AddScoped<IAdvertRepository, AdvertRepository>();
             services.AddScoped<IAdvertService, AdvertService>();
 
-            services.AddAutoMapper(typeof(ModelToResourceProfile));
+            services.AddAutoMapper(typeof(ModelToResourceProfile), typeof(ResourceToModelProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
