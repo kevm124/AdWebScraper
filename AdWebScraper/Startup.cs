@@ -43,6 +43,8 @@ namespace AdWebScraper
             services.AddScoped<IAdvertRepository, AdvertRepository>();
             services.AddScoped<IAdvertService, AdvertService>();
 
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddAutoMapper(typeof(ModelToResourceProfile), typeof(ResourceToModelProfile));
         }
 
