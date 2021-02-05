@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using AdWebScraper.Contexts;
 using AdWebScraper.Services;
 using AdWebScraper.Repository;
+using AdWebScraper.Mapping;
+using AutoMapper;
 
 namespace AdWebScraper
 {
@@ -40,6 +42,8 @@ namespace AdWebScraper
             services.AddDbContext<AppDbContext>(options => { options.UseInMemoryDatabase("ad-web-scraper-in-memory"); });
             services.AddScoped<IAdvertRepository, AdvertRepository>();
             services.AddScoped<IAdvertService, AdvertService>();
+
+            services.AddAutoMapper(typeof(ModelToResourceProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
