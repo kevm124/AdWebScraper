@@ -13,10 +13,15 @@ namespace AdWebScraper.Repository
         public AdvertRepository(AppDbContext context) : base(context)
         {
         }
-
+       
         public async Task<IEnumerable<Advert>> ListAsync()
         {
             return await _context.Adverts.ToListAsync();
+        }
+
+        public async Task AddAsync(Advert advert)
+        {
+            await _context.Adverts.AddAsync(advert);
         }
     }
 }

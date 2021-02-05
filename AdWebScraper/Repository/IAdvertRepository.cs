@@ -9,5 +9,6 @@ namespace AdWebScraper.Repository
     public interface IAdvertRepository
     {
         Task<IEnumerable<Advert>> ListAsync();
+        Task AddAsync(Advert advert);
     }
 }
