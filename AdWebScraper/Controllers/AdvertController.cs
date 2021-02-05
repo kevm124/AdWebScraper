@@ -7,6 +7,7 @@ using AutoMapper;
 using AdWebScraper.Services;
 using AdWebScraper.Models;
 using AdWebScraper.Resources;
+using AdWebScraper.Extensions;
 
 namespace AdWebScraper.Controllers
 {
@@ -29,6 +30,26 @@ namespace AdWebScraper.Controllers
             var resources = _mapper.Map<IEnumerable<Advert>, IEnumerable<AdvertResource>>(adverts);
 
             return resources;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromBody] SaveAdvertResource resource)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorMessages());
+            }
+
+            var advert = _mapper.Map<SaveAdvertResource, Advert>(resource);
+            var result = await _advertService.SaveAsync(advert);
+
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+
+            var advertResource = _mapper.Map<Advert, AdvertResource>(result.Advert);
+            return Ok(advertResource);
         }
     }
 }
