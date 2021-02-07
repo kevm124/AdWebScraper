@@ -51,5 +51,39 @@ namespace AdWebScraper.Controllers
             var advertResource = _mapper.Map<Advert, AdvertResource>(result.Advert);
             return Ok(advertResource);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(int id, [FromBody] SaveAdvertResource resource)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorMessages());
+            }
+
+            var advert = _mapper.Map<SaveAdvertResource, Advert>(resource);
+            var result = await _advertService.UpdateAsync(id, advert);
+
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+
+            var advertResource = _mapper.Map<Advert, AdvertResource>(result.Advert);
+            return Ok(advertResource);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            var result = await _advertService.DeleteAsync(id);
+
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+
+            var advertResource = _mapper.Map<Advert, AdvertResource>(result.Advert);
+            return Ok(advertResource);
+        }
     }
 }
