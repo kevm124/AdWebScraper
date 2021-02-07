@@ -23,5 +23,20 @@ namespace AdWebScraper.Repository
         {
             await _context.Adverts.AddAsync(advert);
         }
+
+        public async Task<Advert> FindByIdAsync(int id)
+        {
+            return await _context.Adverts.FindAsync(id);
+        }
+
+        public void Update(Advert advert)
+        {
+            _context.Adverts.Update(advert);
+        }
+
+        public void Delete(Advert advert)
+        {
+            _context.Adverts.Remove(advert);
+        }
     }
 }

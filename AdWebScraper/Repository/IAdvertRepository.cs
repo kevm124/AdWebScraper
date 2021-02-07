@@ -10,5 +10,8 @@ namespace AdWebScraper.Repository
     {
         Task<IEnumerable<Advert>> ListAsync();
         Task AddAsync(Advert advert);
+        Task<Advert> FindByIdAsync(int id);
+        void Update(Advert advert);
+        void Delete(Advert advert);
     }
 }
