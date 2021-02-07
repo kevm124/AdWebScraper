@@ -35,7 +35,56 @@ namespace AdWebScraper.Services
             }
             catch (Exception e)
             {
-                return new AdvertResponse($"An error occured when saving the category: {e.Message}");
+                return new AdvertResponse($"An error occured when saving the advert: {e.Message}");
+            }
+        }
+
+        public async Task<AdvertResponse> UpdateAsync(int id, Advert advert)
+        {
+            var existingAdvert = await _advertRepository.FindByIdAsync(id);
+            if(existingAdvert == null)
+            {
+                return new AdvertResponse("Advert not found");
+            }
+
+            existingAdvert.Url = advert.Url;
+            if (advert.DatePosted != default(DateTime))
+                existingAdvert.DatePosted = advert.DatePosted;
+            if (advert.Description != null)
+                existingAdvert.Description = advert.Description;
+
+
+            try
+            {
+                _advertRepository.Update(existingAdvert);
+                await _unitOfWork.CompleteAsync();
+
+                return new AdvertResponse(existingAdvert);
+            }
+            catch (Exception e)
+            {
+                return new AdvertResponse($"An error occured when saving the advert: {e.Message}");
+            }
+        }
+
+        public async Task<AdvertResponse> DeleteAsync(int id)
+        {
+            var existingAdvert = await _advertRepository.FindByIdAsync(id);
+            if (existingAdvert == null)
+            {
+                return new AdvertResponse("Advert not found");
+            }
+
+            try
+            {
+                _advertRepository.Delete(existingAdvert);
+                await _unitOfWork.CompleteAsync();
+
+                return new AdvertResponse(existingAdvert);
+            }
+            catch (Exception e)
+            {
+                return new AdvertResponse($"An error occured when saving the advert: {e.Message}");
             }
         }
     }

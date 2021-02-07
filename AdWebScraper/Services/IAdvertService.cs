@@ -11,5 +11,7 @@ namespace AdWebScraper.Services
     {
         Task<IEnumerable<Advert>> ListAsync();
         Task<AdvertResponse> SaveAsync(Advert advert);
+        Task<AdvertResponse> UpdateAsync(int id, Advert advert);
+        Task<AdvertResponse> DeleteAsync(int id);
     }
 }
