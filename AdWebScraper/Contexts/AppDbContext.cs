@@ -44,6 +44,13 @@ namespace AdWebScraper.Contexts
             builder.Entity<Car>().Property(p => p.Miles);
             builder.Entity<Car>().Property(p => p.Condition);
             builder.Entity<Car>().Property(p => p.Color);
+
+            //To test endpoints
+            builder.Entity<Car>().HasData
+            (
+                new Car { _id = 100, MakeModel = "ford Fusion", Year = 2011, Price = 4500, Miles = 127000, AdvertId = 100 },
+                new Car { _id = 101, MakeModel = "Honda Pilot LX", Year = 2009, Price = 3600, Miles = 215400, Color = "Grey", Condition = "Good", AdvertId = 101 }
+            );
         }
     }
 }
