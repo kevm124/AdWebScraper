@@ -26,7 +26,7 @@ namespace AdWebScraper.Repository
 
         public async Task<Advert> FindByIdAsync(int id)
         {
-            return await _context.Adverts.FindAsync(id);
+            return await _context.Adverts.Include(p => p.Car).FirstOrDefaultAsync(p => p._id == id);
         }
 
         public void Update(Advert advert)
