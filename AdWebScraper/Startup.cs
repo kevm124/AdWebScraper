@@ -42,6 +42,8 @@ namespace AdWebScraper
             services.AddDbContext<AppDbContext>(options => { options.UseInMemoryDatabase("ad-web-scraper-in-memory"); });
             services.AddScoped<IAdvertRepository, AdvertRepository>();
             services.AddScoped<IAdvertService, AdvertService>();
+            services.AddScoped<ICarRepository, CarRepository>();
+            services.AddScoped<ICarService, CarService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
