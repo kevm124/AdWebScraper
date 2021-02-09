@@ -13,6 +13,7 @@ namespace AdWebScraper.Mapping
         public ResourceToModelProfile()
         {
             CreateMap<SaveAdvertResource, Advert>();
+            CreateMap<SaveCarResource, Car>();
         }
     }
 }
