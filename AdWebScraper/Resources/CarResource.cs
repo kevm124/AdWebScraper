@@ -9,6 +9,5 @@
         public uint Miles { get; set; }
         public string Condition { get; set; }
         public string Color { get; set; }
-        public int AdvertId { get; set; }
     }
 }

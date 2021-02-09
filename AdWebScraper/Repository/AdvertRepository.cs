@@ -16,7 +16,7 @@ namespace AdWebScraper.Repository
        
         public async Task<IEnumerable<Advert>> ListAsync()
         {
-            return await _context.Adverts.ToListAsync();
+            return await _context.Adverts.Include(p => p.Car).ToListAsync();
         }
 
         public async Task AddAsync(Advert advert)

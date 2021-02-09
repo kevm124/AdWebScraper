@@ -12,6 +12,6 @@ namespace AdWebScraper.Resources
         public string Url { get; set; }
         public DateTime DatePosted { get; set; }
         public string Description { get; set; }
-        public Car Car { get; set; }
+        public CarResource Car { get; set; }
     }
 }
