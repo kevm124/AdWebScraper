@@ -44,6 +44,7 @@ namespace AdWebScraper
             services.AddScoped<IAdvertService, AdvertService>();
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<ICarService, CarService>();
+            services.AddScoped<IWebScraperService, WebScraperService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
