@@ -66,6 +66,13 @@ namespace AdWebScraper.Services
                 advert.DatePosted = DateTime.Parse(dateTime.GetAttribute("datetime"));
             }
 
+            var description = document.QuerySelector("#postingbody");
+            if(description != null)
+            {
+                description.QuerySelector("div.print-information.print-qrcode-container").Remove();
+                advert.Description = description.TextContent.Trim();
+            }                
+
             var price = document.QuerySelector("span.price");
             car.Price = (uint)int.Parse(price.TextContent, System.Globalization.NumberStyles.AllowThousands | System.Globalization.NumberStyles.AllowCurrencySymbol);
 
