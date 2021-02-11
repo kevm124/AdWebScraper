@@ -26,9 +26,8 @@ namespace AdWebScraper.Controllers
 
         // Get: api/WebScraper
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> GetAsync([FromBody] string url)
         {
-            var url = "https://indianapolis.craigslist.org/ctd/d/whiteland-2012-ford-fusion-hybrid/7275090025.html";
             var result = await _webScraperService.GetPageData(url);
 
             if (!result.Success)
