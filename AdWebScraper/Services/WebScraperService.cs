@@ -42,7 +42,7 @@ namespace AdWebScraper.Services
             var car = _mapper.Map<SaveCarResource, Car>(carResource);
             var carResult = await _carService.SaveAsync(car);
             if (!carResult.Success)
-            {
+        {
                 return new AdvertResponse(carResult.Message);
             }
 
