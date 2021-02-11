@@ -21,12 +21,12 @@ namespace AdWebScraper.Controllers
 
         // Get: api/WebScraper
         [HttpGet]
-        public string Get()
+        public Task<string> Get()
         {
             var url = "https://indianapolis.craigslist.org/ctd/d/whiteland-2012-ford-fusion-hybrid/7275090025.html";
-            _webScraperService.GetPageData(url);
+            var output = _webScraperService.GetPageData(url);
 
-            return "Hello world";
+            return output;
         }        
     }
 }

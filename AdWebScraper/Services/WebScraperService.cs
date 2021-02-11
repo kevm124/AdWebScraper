@@ -7,16 +7,49 @@ using Microsoft.Extensions.Logging;
 using AngleSharp;
 using AngleSharp.Html.Parser;
 using AdWebScraper.Resources;
+using AdWebScraper.Repository;
+using AdWebScraper.Models;
+using AutoMapper;
 
 namespace AdWebScraper.Services
 {
     public class WebScraperService : IWebScraperService
     {
-        public WebScraperService()
+        private readonly IAdvertService _advertService;
+        private readonly ICarService _carService;
+        private readonly IMapper _mapper;
+
+        public WebScraperService(IAdvertService advertService, ICarService carService, IMapper mapper)
         {
+            _advertService = advertService;
+            _carService = carService;
+            _mapper = mapper;
         }
 
-        public async void GetPageData(string url)
+        public async Task<string> GetPageData(string url)
+        {            
+            (SaveAdvertResource advertResource, SaveCarResource carResource) = await GetCarAdData(url);
+
+            var advert = _mapper.Map<SaveAdvertResource, Advert>(advertResource);
+            var result = await _advertService.SaveAsync(advert);
+            if (!result.Success)
+            {
+                return result.Message;
+            }
+
+            carResource.AdvertId = result.Advert._id;
+
+            var car = _mapper.Map<SaveCarResource, Car>(carResource);
+            var carResult = await _carService.SaveAsync(car);
+            if (!carResult.Success)
+            {
+                return carResult.Message;
+            }
+
+            return advertResource.Url;
+        }
+
+        public async Task<(SaveAdvertResource, SaveCarResource)> GetCarAdData(string url)
         {
             var config = Configuration.Default.WithDefaultLoader();
             var context = BrowsingContext.New(config);
@@ -63,6 +96,8 @@ namespace AdWebScraper.Services
                         break;
                 }
             }
+
+            return (advert, car);
         }
     }
 }

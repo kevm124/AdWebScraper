@@ -7,6 +7,6 @@ namespace AdWebScraper.Services
 {
     public interface IWebScraperService
     {
-        void GetPageData(string url);
+        Task<string> GetPageData(string url);
     }
 }
