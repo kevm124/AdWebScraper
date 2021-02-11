@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using AngleSharp;
 using AngleSharp.Html.Parser;
 using AdWebScraper.Resources;
-using AdWebScraper.Repository;
+using AdWebScraper.Services.Communication;
 using AdWebScraper.Models;
 using AutoMapper;
 
@@ -26,7 +26,7 @@ namespace AdWebScraper.Services
             _mapper = mapper;
         }
 
-        public async Task<string> GetPageData(string url)
+        public async Task<AdvertResponse> GetPageData(string url)
         {            
             (SaveAdvertResource advertResource, SaveCarResource carResource) = await GetCarAdData(url);
 
@@ -34,7 +34,7 @@ namespace AdWebScraper.Services
             var result = await _advertService.SaveAsync(advert);
             if (!result.Success)
             {
-                return result.Message;
+                return result;
             }
 
             carResource.AdvertId = result.Advert._id;
@@ -43,10 +43,10 @@ namespace AdWebScraper.Services
             var carResult = await _carService.SaveAsync(car);
             if (!carResult.Success)
             {
-                return carResult.Message;
+                return new AdvertResponse(carResult.Message);
             }
 
-            return advertResource.Url;
+            return new AdvertResponse(advert);
         }
 
         public async Task<(SaveAdvertResource, SaveCarResource)> GetCarAdData(string url)
