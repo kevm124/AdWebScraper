@@ -74,7 +74,10 @@ namespace AdWebScraper.Services
             }                
 
             var price = document.QuerySelector("span.price");
-            car.Price = (uint)int.Parse(price.TextContent, System.Globalization.NumberStyles.AllowThousands | System.Globalization.NumberStyles.AllowCurrencySymbol);
+            if (price != null)
+            {
+                car.Price = uint.Parse(price.TextContent, System.Globalization.NumberStyles.AllowThousands | System.Globalization.NumberStyles.AllowCurrencySymbol);
+            }
 
             var attributeGroup = document.QuerySelectorAll("p.attrgroup");
 
