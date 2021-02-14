@@ -30,6 +30,11 @@ namespace AdWebScraper.Services
         {            
             (SaveAdvertResource advertResource, SaveCarResource carResource) = await GetCarAdData(url);
 
+            if(advertResource == null || carResource == null)
+            {
+                return new AdvertResponse("An error occured when getting page data: Page was not found");
+            }
+
             var advert = _mapper.Map<SaveAdvertResource, Advert>(advertResource);
             var result = await _advertService.SaveAsync(advert);
             if (!result.Success)
@@ -54,6 +59,11 @@ namespace AdWebScraper.Services
             var config = Configuration.Default.WithDefaultLoader();
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(url);
+
+            if(document.QuerySelector("title").TextContent == "craigslist | Page Not Found")
+            {
+                return (null, null);
+            }
 
             SaveAdvertResource advert = new SaveAdvertResource();
             SaveCarResource car = new SaveCarResource();
