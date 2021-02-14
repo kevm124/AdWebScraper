@@ -81,29 +81,32 @@ namespace AdWebScraper.Services
 
             var attributeGroup = document.QuerySelectorAll("p.attrgroup");
 
-            MatchCollection matches = Regex.Matches(attributeGroup[0].TextContent, @"\d{4}");
-            var year = uint.Parse(matches[0].ToString());
-            car.Year = year;
-
-            matches = Regex.Matches(attributeGroup[0].TextContent, @"[^\s\d].+");
-            car.MakeModel = matches[0].ToString();
-
-            var attributes = attributeGroup[1].QuerySelectorAll("span");
-
-            foreach (var row in attributes)
+            if (attributeGroup != null && attributeGroup.Length > 0)
             {
-                string[] rowSplit = row.TextContent.Split(": ");
-                switch (rowSplit[0])
+                MatchCollection matches = Regex.Matches(attributeGroup[0].TextContent, @"\d{4}");
+                var year = uint.Parse(matches[0].ToString());
+                car.Year = year;
+
+                matches = Regex.Matches(attributeGroup[0].TextContent, @"[^\s\d].+");
+                car.MakeModel = matches[0].ToString();
+
+                var attributes = attributeGroup[1].QuerySelectorAll("span");
+
+                foreach (var row in attributes)
                 {
-                    case "odometer":
-                        car.Miles = uint.Parse(rowSplit[1]);
-                        break;
-                    case "paint color":
-                        car.Color = rowSplit[1];
-                        break;
-                    case "condition":
-                        car.Condition = rowSplit[1];
-                        break;
+                    string[] rowSplit = row.TextContent.Split(": ");
+                    switch (rowSplit[0])
+                    {
+                        case "odometer":
+                            car.Miles = uint.Parse(rowSplit[1]);
+                            break;
+                        case "paint color":
+                            car.Color = rowSplit[1];
+                            break;
+                        case "condition":
+                            car.Condition = rowSplit[1];
+                            break;
+                    }
                 }
             }
 
